@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.completedOrNot = exports.prueba = exports.showTaskList = exports.Tasks = exports.taskList = exports.contadorId = void 0;
+exports.prueba = exports.completedOrNot = exports.showTaskList = exports.Tasks = exports.taskList = exports.contadorId = void 0;
 exports.contadorId = 0;
 exports.taskList = [];
-console.log("Hello World");
 class Tasks {
-    constructor(task) {
-        this._task = task;
-    }
+    /*_task: Task;
+    constructor(task: Task){
+      this._task = task;
+    }*/
     addTask(task) {
         exports.taskList.push(task);
         exports.contadorId++;
@@ -45,16 +45,6 @@ function showTaskList(taskList) {
     return stringArray;
 }
 exports.showTaskList = showTaskList;
-let tareaTest = { id: exports.contadorId, text: "Comprar portatil", completed: false };
-exports.prueba = new Tasks(tareaTest);
-exports.prueba.addTask(tareaTest);
-let secondTask = { id: exports.contadorId, text: "Ir al gym", completed: false };
-exports.prueba.addTask(secondTask);
-let thirdTask = { id: exports.contadorId, text: "Ir a fumar", completed: false };
-exports.prueba.addTask(thirdTask);
-exports.prueba.markAsCompleted(exports.contadorId - 1);
-// prueba.removeTask(0)
-showTaskList(exports.taskList);
 function completedOrNot(task) {
     if (task.completed) {
         return "completado";
@@ -64,4 +54,17 @@ function completedOrNot(task) {
     }
 }
 exports.completedOrNot = completedOrNot;
+exports.prueba = new Tasks();
+/*let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false;
+prueba.addTask(tareaTest);
+
+let secondTask: Task = {id: contadorId, text: "Ir al gym", completed: false}
+prueba.addTask(secondTask);
+
+let thirdTask: Task = {id: contadorId, text: "Ir a fumar", completed: false}
+prueba.addTask(thirdTask);
+
+prueba.markAsCompleted(contadorId - 1);
+// prueba.removeTask(0)
+showTaskList(taskList);*/
 //# sourceMappingURL=index.js.map

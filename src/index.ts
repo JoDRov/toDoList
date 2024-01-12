@@ -1,8 +1,6 @@
 export let contadorId: number = 0;
 export let taskList: Task[] = [];
 
-console.log("Hello World")
-
 export type Task = {
   id: number,
   text: string,
@@ -10,10 +8,10 @@ export type Task = {
 }
 
 export class Tasks{
-  _task: Task;
+  /*_task: Task;
   constructor(task: Task){
     this._task = task;
-  }
+  }*/
 
   addTask(task: Task){
     taskList.push(task);
@@ -43,20 +41,29 @@ export class Tasks{
 }
 
 export function showTaskList(taskList: Task[]){
-    let stringArray: string[] = [];
-  
-    for (let i = 0; i < taskList.length; i++){
-      if (i < taskList.length - 1){
-        stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ", ");
-      }else{
-        stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ".");
-      }
-    } 
-    return stringArray;
-  }
+  let stringArray: string[] = [];
 
-let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false}
-export let prueba = new Tasks(tareaTest);
+  for (let i = 0; i < taskList.length; i++){
+    if (i < taskList.length - 1){
+      stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ", ");
+    }else{
+      stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ".");
+    }
+  } 
+  return stringArray;
+}
+
+export function completedOrNot(task: Task){
+  if (task.completed){
+    return "completado"
+  }else{
+    return "pendiente"
+  }
+}
+
+export let prueba: Tasks = new Tasks();
+
+/*let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false;
 prueba.addTask(tareaTest);
 
 let secondTask: Task = {id: contadorId, text: "Ir al gym", completed: false}
@@ -67,12 +74,5 @@ prueba.addTask(thirdTask);
 
 prueba.markAsCompleted(contadorId - 1);
 // prueba.removeTask(0)
-showTaskList(taskList);
+showTaskList(taskList);*/
 
-export function completedOrNot(task: Task){
-  if (task.completed){
-    return "completado"
-  }else{
-    return "pendiente"
-  }
-}
