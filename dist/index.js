@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.completedOrNot = exports.prueba = exports.showTaskList = exports.Tasks = exports.taskList = exports.contadorId = void 0;
 exports.contadorId = 0;
 exports.taskList = [];
+console.log("Hello World");
 class Tasks {
     constructor(task) {
         this._task = task;

@@ -1,6 +1,8 @@
 export let contadorId: number = 0;
 export let taskList: Task[] = [];
 
+console.log("Hello World")
+
 export type Task = {
   id: number,
   text: string,
