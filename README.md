@@ -22,7 +22,7 @@ Añade una tarea a la lista de tareas
 
 5. node dist/cli -mc id-tarea
 
-Marca la tarea con el id eviado como completada
+Marca la tarea con el id enviado como completada
 
 6. node dist/cli -mi id-tarea
 

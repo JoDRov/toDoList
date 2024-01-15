@@ -1,5 +1,5 @@
-export let contadorId: number = 0;
 export let taskList: Task[] = [];
+export let contadorId: number = 0;
 
 export type Task = {
   id: number,
@@ -8,46 +8,48 @@ export type Task = {
 }
 
 export class Tasks{
-  /*_task: Task;
+  _task: Task;
   constructor(task: Task){
     this._task = task;
-  }*/
+  }
 
   addTask(task: Task){
     taskList.push(task);
     contadorId++;
+    console.log(taskList)
+    return taskList;
   }
 
   markAsCompleted(taskId: number){
     const taskIndex: number = taskList.findIndex((task) => task.id === taskId);
     taskList[taskIndex].completed = true;
+    return taskList
   }
 
-  markAsInompleted(taskId: number){
+  markAsIncompleted(taskId: number){
     const taskIndex: number = taskList.findIndex((task) => task.id === taskId);
     taskList[taskIndex].completed = false;
+    return taskList
   }
 
   removeTask(taskId: number){
     const taskIndex: number = taskList.findIndex((task) => task.id === taskId);
-    console.log(taskList)
     if (!isNaN(taskIndex)){
       taskList.splice(taskIndex,1);
       contadorId --;
-      taskList[taskId].id = taskId;
     }
-    console.log(taskList)
+    return taskList
   }
 }
 
-export function showTaskList(taskList: Task[]){
+export function showTaskList(taskList2: Task[]){
   let stringArray: string[] = [];
 
-  for (let i = 0; i < taskList.length; i++){
-    if (i < taskList.length - 1){
-      stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ", ");
+  for (let i = 0; i < taskList2.length; i++){
+    if (i < taskList2.length - 1){
+      stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ", ");
     }else{
-      stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ".");
+      stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ".");
     }
   } 
   return stringArray;
@@ -61,7 +63,9 @@ export function completedOrNot(task: Task){
   }
 }
 
-export let prueba: Tasks = new Tasks();
+
+
+
 
 /*let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false;
 prueba.addTask(tareaTest);

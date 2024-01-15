@@ -1,45 +1,46 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prueba = exports.completedOrNot = exports.showTaskList = exports.Tasks = exports.taskList = exports.contadorId = void 0;
-exports.contadorId = 0;
+exports.completedOrNot = exports.showTaskList = exports.Tasks = exports.contadorId = exports.taskList = void 0;
 exports.taskList = [];
+exports.contadorId = 0;
 class Tasks {
-    /*_task: Task;
-    constructor(task: Task){
-      this._task = task;
-    }*/
+    constructor(task) {
+        this._task = task;
+    }
     addTask(task) {
         exports.taskList.push(task);
         exports.contadorId++;
+        console.log(exports.taskList);
+        return exports.taskList;
     }
     markAsCompleted(taskId) {
         const taskIndex = exports.taskList.findIndex((task) => task.id === taskId);
         exports.taskList[taskIndex].completed = true;
+        return exports.taskList;
     }
-    markAsInompleted(taskId) {
+    markAsIncompleted(taskId) {
         const taskIndex = exports.taskList.findIndex((task) => task.id === taskId);
         exports.taskList[taskIndex].completed = false;
+        return exports.taskList;
     }
     removeTask(taskId) {
         const taskIndex = exports.taskList.findIndex((task) => task.id === taskId);
-        console.log(exports.taskList);
         if (!isNaN(taskIndex)) {
             exports.taskList.splice(taskIndex, 1);
             exports.contadorId--;
-            exports.taskList[taskId].id = taskId;
         }
-        console.log(exports.taskList);
+        return exports.taskList;
     }
 }
 exports.Tasks = Tasks;
-function showTaskList(taskList) {
+function showTaskList(taskList2) {
     let stringArray = [];
-    for (let i = 0; i < taskList.length; i++) {
-        if (i < taskList.length - 1) {
-            stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ", ");
+    for (let i = 0; i < taskList2.length; i++) {
+        if (i < taskList2.length - 1) {
+            stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ", ");
         }
         else {
-            stringArray.push(taskList[i].text + ": " + completedOrNot(taskList[i]) + ".");
+            stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ".");
         }
     }
     return stringArray;
@@ -54,7 +55,6 @@ function completedOrNot(task) {
     }
 }
 exports.completedOrNot = completedOrNot;
-exports.prueba = new Tasks();
 /*let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false;
 prueba.addTask(tareaTest);
 

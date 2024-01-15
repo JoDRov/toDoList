@@ -1,9 +1,17 @@
 import {Command} from 'commander';
-import {prueba, showTaskList, taskList , Task, Tasks, completedOrNot} from './index';
+import {showTaskList, taskList , contadorId, Task, Tasks, completedOrNot} from './index';
 import chalk from 'chalk';
 import figlet from 'figlet';
 
-let contadorId: number = 0;
+let localTaskList: Task[] = [];
+
+let testTask: Task = {
+  id: 0,
+  text: "Hello",
+  completed: false
+}
+let prueba: Tasks = new Tasks(testTask);
+prueba.removeTask(0);
 
 const program = new Command();
 console.log(figlet.textSync("Gestor de tareas!"));
@@ -22,36 +30,42 @@ const options = program.opts();
 
 function add(text: string) {
   try {
-    const newTask: Task = { id: contadorId, text, completed: false };
-    prueba.addTask(newTask);
+    const newTask: Task = {
+      id: 1,
+      text: text, 
+      completed: false 
+    };
+
+    localTaskList = prueba.addTask(newTask);
     console.log(chalk.green(`id: ${contadorId} Tarea añadida: ${text} - ${completedOrNot(newTask)} `));
-    console.log(taskList)
-    contadorId ++;
+
     return `Tarea añadida: ${text} - ${completedOrNot(newTask)} `
+
   } catch (error) {
     console.error("Error occurred while adding a task!", error);
   }
 }
 
 function markComplete(id: number){
-  prueba.markAsCompleted(id)
+  localTaskList = prueba.markAsCompleted(id)
   console.log(chalk.blue(`La tarea ${id} ${taskList[id].text} ha sido modificada`))
 }
 
 function markIncomplete(id: number){
-  prueba.markAsInompleted(id)
+  localTaskList = prueba.markAsIncompleted(id)
   console.log(chalk.yellow(`La tarea ${id} ${taskList[id].text} ha sido modificada`))
 }
 
+
 function remove(id: number){
-  prueba.removeTask(id)
-  contadorId --;
+  localTaskList = prueba.removeTask(id)
   console.log(chalk.red(`La tarea ${id} ${taskList[id].text} ha sido eliminada`));
 }
 
 function showList() {
-  const result: string[] = showTaskList(taskList);
+  const result: string[] = showTaskList(localTaskList);
   console.log(chalk.white(result));
+  console.log(taskList)
 }
 
 if (options.a){
