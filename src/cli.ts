@@ -1,17 +1,15 @@
 import {Command} from 'commander';
-import {showTaskList, taskList , contadorId, Task, Tasks, completedOrNot} from './index';
+import {showTaskList, taskList, contadorId, Task, Tasks, completedOrNot} from './index';
 import chalk from 'chalk';
 import figlet from 'figlet';
 
-let localTaskList: Task[] = [];
-
-let testTask: Task = {
+const testTask: Task = {
   id: 0,
-  text: "Hello",
+  text: "blabla",
   completed: false
 }
-let prueba: Tasks = new Tasks(testTask);
-prueba.removeTask(0);
+let taskManager: Tasks = new Tasks(taskList);
+let localTaskList: Task[] = []
 
 const program = new Command();
 console.log(figlet.textSync("Gestor de tareas!"));
@@ -28,18 +26,19 @@ program
 
 const options = program.opts();
 
-function add(text: string) {
+function add(userText: string) {
   try {
     const newTask: Task = {
-      id: 1,
-      text: text, 
+      id: contadorId,
+      text: userText, 
       completed: false 
     };
 
-    localTaskList = prueba.addTask(newTask);
-    console.log(chalk.green(`id: ${contadorId} Tarea añadida: ${text} - ${completedOrNot(newTask)} `));
+    localTaskList = taskManager.addTask(newTask);
+    console.log(chalk.green(`id: ${contadorId} Tarea añadida: ${userText} - ${completedOrNot(newTask)} `));
+    console.log(localTaskList);
 
-    return `Tarea añadida: ${text} - ${completedOrNot(newTask)} `
+    return `Tarea añadida: ${userText} - ${completedOrNot(newTask)} `
 
   } catch (error) {
     console.error("Error occurred while adding a task!", error);
@@ -47,25 +46,28 @@ function add(text: string) {
 }
 
 function markComplete(id: number){
-  localTaskList = prueba.markAsCompleted(id)
+  localTaskList = taskManager.markAsCompleted(id)
   console.log(chalk.blue(`La tarea ${id} ${taskList[id].text} ha sido modificada`))
+  console.log(localTaskList);
 }
 
 function markIncomplete(id: number){
-  localTaskList = prueba.markAsIncompleted(id)
-  console.log(chalk.yellow(`La tarea ${id} ${taskList[id].text} ha sido modificada`))
+  localTaskList = taskManager.markAsIncompleted(id)
+  console.log(chalk.yellow(`La tarea ${id} ${localTaskList[id].text} ha sido modificada`))
+  console.log(localTaskList);
 }
 
 
 function remove(id: number){
-  localTaskList = prueba.removeTask(id)
-  console.log(chalk.red(`La tarea ${id} ${taskList[id].text} ha sido eliminada`));
+  localTaskList = taskManager.removeTask(id)
+  console.log(chalk.red(`La tarea ${id} ${localTaskList[id].text} ha sido eliminada`));
+  console.log(localTaskList);
 }
 
 function showList() {
-  const result: string[] = showTaskList(localTaskList);
+  const result: string = showTaskList(localTaskList);
   console.log(chalk.white(result));
-  console.log(taskList)
+  console.log(localTaskList)
 }
 
 if (options.a){

@@ -7,14 +7,13 @@ const commander_1 = require("commander");
 const index_1 = require("./index");
 const chalk_1 = __importDefault(require("chalk"));
 const figlet_1 = __importDefault(require("figlet"));
-let localTaskList = [];
-let testTask = {
+const testTask = {
     id: 0,
-    text: "Hello",
+    text: "blabla",
     completed: false
 };
-let prueba = new index_1.Tasks(testTask);
-prueba.removeTask(0);
+let taskManager = new index_1.Tasks(index_1.taskList);
+let localTaskList = [];
 const program = new commander_1.Command();
 console.log(figlet_1.default.textSync("Gestor de tareas!"));
 program
@@ -27,37 +26,41 @@ program
     .option("-stl, --stl", "Muestra la lista de tareas")
     .parse(process.argv);
 const options = program.opts();
-function add(text) {
+function add(userText) {
     try {
         const newTask = {
-            id: 1,
-            text: text,
+            id: index_1.contadorId,
+            text: userText,
             completed: false
         };
-        localTaskList = prueba.addTask(newTask);
-        console.log(chalk_1.default.green(`id: ${index_1.contadorId} Tarea añadida: ${text} - ${(0, index_1.completedOrNot)(newTask)} `));
-        return `Tarea añadida: ${text} - ${(0, index_1.completedOrNot)(newTask)} `;
+        localTaskList = taskManager.addTask(newTask);
+        console.log(chalk_1.default.green(`id: ${index_1.contadorId} Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `));
+        console.log(localTaskList);
+        return `Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `;
     }
     catch (error) {
         console.error("Error occurred while adding a task!", error);
     }
 }
 function markComplete(id) {
-    localTaskList = prueba.markAsCompleted(id);
+    localTaskList = taskManager.markAsCompleted(id);
     console.log(chalk_1.default.blue(`La tarea ${id} ${index_1.taskList[id].text} ha sido modificada`));
+    console.log(localTaskList);
 }
 function markIncomplete(id) {
-    localTaskList = prueba.markAsIncompleted(id);
-    console.log(chalk_1.default.yellow(`La tarea ${id} ${index_1.taskList[id].text} ha sido modificada`));
+    localTaskList = taskManager.markAsIncompleted(id);
+    console.log(chalk_1.default.yellow(`La tarea ${id} ${localTaskList[id].text} ha sido modificada`));
+    console.log(localTaskList);
 }
 function remove(id) {
-    localTaskList = prueba.removeTask(id);
-    console.log(chalk_1.default.red(`La tarea ${id} ${index_1.taskList[id].text} ha sido eliminada`));
+    localTaskList = taskManager.removeTask(id);
+    console.log(chalk_1.default.red(`La tarea ${id} ${localTaskList[id].text} ha sido eliminada`));
+    console.log(localTaskList);
 }
 function showList() {
     const result = (0, index_1.showTaskList)(localTaskList);
     console.log(chalk_1.default.white(result));
-    console.log(index_1.taskList);
+    console.log(localTaskList);
 }
 if (options.a) {
     add(options.a);

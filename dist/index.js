@@ -4,46 +4,45 @@ exports.completedOrNot = exports.showTaskList = exports.Tasks = exports.contador
 exports.taskList = [];
 exports.contadorId = 0;
 class Tasks {
-    constructor(task) {
-        this._task = task;
+    constructor(taskList) {
+        this._taskList = taskList;
     }
     addTask(task) {
-        exports.taskList.push(task);
+        this._taskList.push(task);
         exports.contadorId++;
-        console.log(exports.taskList);
-        return exports.taskList;
+        return this._taskList;
     }
     markAsCompleted(taskId) {
-        const taskIndex = exports.taskList.findIndex((task) => task.id === taskId);
-        exports.taskList[taskIndex].completed = true;
-        return exports.taskList;
+        const taskIndex = this._taskList.findIndex((task) => task.id === taskId);
+        this._taskList[taskIndex].completed = true;
+        return this._taskList;
     }
     markAsIncompleted(taskId) {
-        const taskIndex = exports.taskList.findIndex((task) => task.id === taskId);
-        exports.taskList[taskIndex].completed = false;
-        return exports.taskList;
+        const taskIndex = this._taskList.findIndex((task) => task.id === taskId);
+        this._taskList[taskIndex].completed = false;
+        return this._taskList;
     }
     removeTask(taskId) {
-        const taskIndex = exports.taskList.findIndex((task) => task.id === taskId);
+        const taskIndex = this._taskList.findIndex((task) => task.id === taskId);
         if (!isNaN(taskIndex)) {
-            exports.taskList.splice(taskIndex, 1);
+            this._taskList.splice(taskIndex, 1);
             exports.contadorId--;
         }
-        return exports.taskList;
+        return this._taskList;
     }
 }
 exports.Tasks = Tasks;
-function showTaskList(taskList2) {
-    let stringArray = [];
-    for (let i = 0; i < taskList2.length; i++) {
-        if (i < taskList2.length - 1) {
-            stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ", ");
+function showTaskList(taskList) {
+    let string = "";
+    for (let i = 0; i < taskList.length; i++) {
+        if (i < taskList.length - 1) {
+            string += taskList[i].text + ": " + completedOrNot(taskList[i]) + ", ";
         }
         else {
-            stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ".");
+            string += taskList[i].text + ": " + completedOrNot(taskList[i]) + ".";
         }
     }
-    return stringArray;
+    return string;
 }
 exports.showTaskList = showTaskList;
 function completedOrNot(task) {

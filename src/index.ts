@@ -8,51 +8,50 @@ export type Task = {
 }
 
 export class Tasks{
-  _task: Task;
-  constructor(task: Task){
-    this._task = task;
+  _taskList: Task[];
+  constructor(taskList: Task[]){
+    this._taskList = taskList;
   }
 
   addTask(task: Task){
-    taskList.push(task);
+    this._taskList.push(task);
     contadorId++;
-    console.log(taskList)
-    return taskList;
+    return this._taskList;
   }
 
   markAsCompleted(taskId: number){
-    const taskIndex: number = taskList.findIndex((task) => task.id === taskId);
-    taskList[taskIndex].completed = true;
-    return taskList
+    const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
+    this._taskList[taskIndex].completed = true;
+    return this._taskList
   }
 
   markAsIncompleted(taskId: number){
-    const taskIndex: number = taskList.findIndex((task) => task.id === taskId);
-    taskList[taskIndex].completed = false;
-    return taskList
+    const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
+    this._taskList[taskIndex].completed = false;
+    return this._taskList
   }
 
   removeTask(taskId: number){
-    const taskIndex: number = taskList.findIndex((task) => task.id === taskId);
+    const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
     if (!isNaN(taskIndex)){
-      taskList.splice(taskIndex,1);
+      this._taskList.splice(taskIndex,1);
       contadorId --;
     }
-    return taskList
+    return this._taskList
   }
 }
 
-export function showTaskList(taskList2: Task[]){
-  let stringArray: string[] = [];
+export function showTaskList(taskList: Task[]){
+  let string: string = "";
 
-  for (let i = 0; i < taskList2.length; i++){
-    if (i < taskList2.length - 1){
-      stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ", ");
+  for (let i = 0; i < taskList.length; i++){
+    if (i < taskList.length - 1){
+      string += taskList[i].text + ": " + completedOrNot(taskList[i]) + ", ";
     }else{
-      stringArray.push(taskList2[i].text + ": " + completedOrNot(taskList2[i]) + ".");
+      string += taskList[i].text + ": " + completedOrNot(taskList[i]) + ".";
     }
   } 
-  return stringArray;
+  return  string;
 }
 
 export function completedOrNot(task: Task){
