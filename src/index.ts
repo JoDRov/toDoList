@@ -13,25 +13,25 @@ export class Tasks{
     this._taskList = taskList;
   }
 
-  addTask(task: Task){
+  addTask(task: Task): Task[]{
     this._taskList.push(task);
     contadorId++;
     return this._taskList;
   }
 
-  markAsCompleted(taskId: number){
+  markAsCompleted(taskId: number): Task[]{
     const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
     this._taskList[taskIndex].completed = true;
     return this._taskList
   }
 
-  markAsIncompleted(taskId: number){
+  markAsIncompleted(taskId: number): Task[]{
     const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
     this._taskList[taskIndex].completed = false;
     return this._taskList
   }
 
-  removeTask(taskId: number){
+  removeTask(taskId: number): Task[]{
     const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
     if (!isNaN(taskIndex)){
       this._taskList.splice(taskIndex,1);
@@ -41,7 +41,7 @@ export class Tasks{
   }
 }
 
-export function showTaskList(taskList: Task[]){
+export function showTaskList(taskList: Task[]): string{
   let string: string = "";
 
   for (let i = 0; i < taskList.length; i++){
@@ -54,13 +54,21 @@ export function showTaskList(taskList: Task[]){
   return  string;
 }
 
-export function completedOrNot(task: Task){
+export function completedOrNot(task: Task): string{
   if (task.completed){
     return "completado"
   }else{
     return "pendiente"
   }
 }
+
+const testTasK: Task = {
+  id: contadorId,
+  text: "Ir a comprar manzanas",
+  completed: false
+}
+let taskManager: Tasks = new Tasks(taskList)
+taskManager.addTask(testTasK)
 
 
 

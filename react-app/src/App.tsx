@@ -1,11 +1,8 @@
 import {taskList, showTaskList} from "../../src/index.ts";
 
 console.log(taskList)
-const stringArray: string[] = showTaskList(taskList);
-console.log(stringArray)
 
-const list = stringArray.pop()
-console.log(list)
+const stringArray: string = showTaskList(taskList);
 
 function App(){
   return (
@@ -16,7 +13,7 @@ function App(){
     </header>
     <main>
         <div id="app">
-        {list}
+        {stringArray}
         </div>
     </main>
     <footer>

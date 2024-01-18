@@ -7,13 +7,11 @@ const commander_1 = require("commander");
 const index_1 = require("./index");
 const chalk_1 = __importDefault(require("chalk"));
 const figlet_1 = __importDefault(require("figlet"));
-const testTask = {
-    id: 0,
-    text: "blabla",
-    completed: false
-};
 let taskManager = new index_1.Tasks(index_1.taskList);
 let localTaskList = [];
+function resetOptions() {
+    process.argv = process.argv.slice(0, 2); // Reset options
+}
 const program = new commander_1.Command();
 console.log(figlet_1.default.textSync("Gestor de tareas!"));
 program
@@ -24,23 +22,48 @@ program
     .option("-mi, --mi <id>", "Marca una tarea com incompleta")
     .option("-r, --r <id>", "Elimina una tarea de la lista de tareas")
     .option("-stl, --stl", "Muestra la lista de tareas")
-    .parse(process.argv);
-const options = program.opts();
+    .option("-s, --stop", "Cierra la aplicacion");
+let appEnd = false;
+program
+    .command("add string")
+    .action((userString) => {
+    add(userString);
+})
+    .description("Añade una tarea a la lista");
+program
+    .command("mc id")
+    .action((userId) => {
+    markComplete(userId);
+})
+    .description("Marca una tarea como completada");
+program
+    .command("mi id")
+    .action((userId) => {
+    markIncomplete(userId);
+})
+    .description("Marca una tarea como no completada");
+program
+    .command("rm id")
+    .action((userId) => {
+    remove(userId);
+})
+    .description("Elimina una tarea de la lista");
+program
+    .command("stl")
+    .action(() => {
+    showList();
+})
+    .description("Elimina una tarea de la lista");
 function add(userText) {
-    try {
-        const newTask = {
-            id: index_1.contadorId,
-            text: userText,
-            completed: false
-        };
-        localTaskList = taskManager.addTask(newTask);
-        console.log(chalk_1.default.green(`id: ${index_1.contadorId} Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `));
-        console.log(localTaskList);
-        return `Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `;
-    }
-    catch (error) {
-        console.error("Error occurred while adding a task!", error);
-    }
+    const newTask = {
+        id: index_1.contadorId,
+        text: userText,
+        completed: false
+    };
+    localTaskList = taskManager.addTask(newTask);
+    console.log(chalk_1.default.green(`id: ${index_1.contadorId - 1} Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `));
+    console.log(localTaskList);
+    return `Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `;
 }
 function markComplete(id) {
     localTaskList = taskManager.markAsCompleted(id);
@@ -62,6 +85,8 @@ function showList() {
     console.log(chalk_1.default.white(result));
     console.log(localTaskList);
 }
+const options = program.opts();
+//while (!appEnd) {
 if (options.a) {
     add(options.a);
 }
@@ -77,45 +102,9 @@ if (options.r) {
 if (options.stl) {
     showList();
 }
-/*program
-.command ('add <text>')
-.description ('Añadir una nueva tarea')
-.action ((text: string) => {
-  const newTask: Task = { id: contadorId, text, completed: false };
-  prueba.addTask(newTask);
-  console.log(chalk.green(`Tarea añadida: ${text} - ${completedOrNot(newTask)} `));
-  //showTaskList(taskList);
-})
-
-program
-.command ('mark-completed <id>')
-.description ("Marca una tarea como completada")
-.action ((id: number) => {
-  prueba.markAsCompleted(id)
-  console.log(chalk.blue(`La tarea ${id} ${taskList[id].text} ha sido modificada`))
-})
-
-program
-.command ('mark-incomplete <id>')
-.description ("Marca una tarea como no completada")
-.action ((id: number) => {
-  prueba.markAsInompleted(id)
-  console.log(chalk.yellow(`La tarea ${id} ${taskList[id].text} ha sido modificada`))
-})
-
-program
-.command ('remove <id>')
-.description ('Eliminar una tarea')
-.action ((id: number) => {
-  prueba.removeTask(id)
-  console.log(chalk.red(`La tarea ${id} ${taskList[id].text} ha sido eliminada`));
-})
-
-program
-.command ('show-task-list')
-.description ('Muestra la lista de tareas')
-.action ((taskList: Task[]) => {
-  const result: string[] = showTaskList(taskList);
-  console.log(chalk.white(result));
-})*/ 
+if (options.s) {
+    appEnd = true;
+}
+//}
+program.parse(process.argv);
 //# sourceMappingURL=cli.js.map
