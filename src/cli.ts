@@ -2,64 +2,14 @@ import { Command } from 'commander';
 import { showTaskList, taskList, contadorId, Task, Tasks, completedOrNot } from './index';
 import chalk from 'chalk';
 import figlet from 'figlet';
+import * as readlineSync from 'readline-sync';
 
 let taskManager: Tasks = new Tasks(taskList);
 let localTaskList: Task[] = [];
-
-function resetOptions() {
-  process.argv = process.argv.slice(0, 2); // Reset options
-}
-
-const program = new Command();
-console.log(figlet.textSync("Gestor de tareas!"));
-
-program
-  .version("1.0.0")
-  .description("Cli para manejar una lista de tareas")
-  /*.option("-a, --a <string>", "Añade una tarea a la lista de tareas")
-  .option("-mc, --mc <id>", "Marca una tarea como completada")
-  .option("-mi, --mi <id>", "Marca una tarea com incompleta")
-  .option("-r, --r <id>", "Elimina una tarea de la lista de tareas")
-  .option("-stl, --stl", "Muestra la lista de tareas")
-  .option("-s, --stop", "Cierra la aplicacion");*/
-
 let appEnd: boolean = false;
+const program = new Command();
 
-program
-  .command("add string")
-  .action((userString: string) => {
-      add(userString)
-  })
-  .description("Añade una tarea a la lista")
-
-program
-  .command("mc id")
-  .action((userId: number) => {
-      markComplete(userId)
-  })
-  .description("Marca una tarea como completada")
-
-program
-  .command("mi id")
-  .action((userId: number) => {
-      markIncomplete(userId)
-  })
-  .description("Marca una tarea como no completada")
-
-program
-  .command("rm id")
-  .action((userId: number) => {
-      remove(userId)
-  })
-  .description("Elimina una tarea de la lista")
-
-program
-  .command("stl")
-  .action(() => {
-      showList()
-  })
-  .description("Elimina una tarea de la lista")
-
+console.log(figlet.textSync("Gestor de tareas!"));
 
 function add(userText: string) {
   const newTask: Task = {
@@ -74,13 +24,13 @@ function add(userText: string) {
   return `Tarea añadida: ${userText} - ${completedOrNot(newTask)} `;
 }
 
-function markComplete(id: number){
+function markCompleted(id: number){
   localTaskList = taskManager.markAsCompleted(id);
   console.log(chalk.blue(`La tarea ${id} ${taskList[id].text} ha sido modificada`));
   console.log(localTaskList);
 }
 
-function markIncomplete(id: number) {
+function markIncompleted(id: number) {
   localTaskList = taskManager.markAsIncompleted(id);
   console.log(chalk.yellow(`La tarea ${id} ${localTaskList[id].text} ha sido modificada`));
   console.log(localTaskList);
@@ -100,25 +50,67 @@ function showList() {
 
 const options = program.opts();
 
-/*while (!appEnd) {
-  if (options.a) {
-    add(options.a);
+while (!appEnd) {
+  let question = readlineSync.question('What do you want to do next? (1.add, 2.mark complete, 3.mark incomplete, 4.remove, 5.show task list, 6.exit) (Just type the number): ');
+  console.log(question)
+
+  switch(question){
+    case "1": {
+      let taskText = readlineSync.question("Inser your task here: ")
+
+      add(taskText);
+      break
+    }
+    case "2": {
+      let taskIdText = readlineSync.question("Insert the id of the task you want completed: ")
+      console.log("TaskIdText: " + taskIdText)
+      const taskId = stringToNumber(taskIdText)
+      console.log("taskId: " + taskId)
+    
+      markCompleted(taskId);
+      break
+    }
+    case "3": {
+      let taskIdText = readlineSync.question("Insert the id of the task you want incompleted: ")
+      const taskId = stringToNumber(taskIdText)
+
+      markIncompleted(taskId);
+      break
+    }
+    case "4": {
+      let taskIdText = readlineSync.question("Insert the id of the task you want removed: ")
+      const taskId = stringToNumber(taskIdText)
+
+      remove(taskId);
+      break
+    }
+    case "5": {
+      showList();
+      break
+    }
+    case "6": {
+      appEnd = true;
+      break
+    }
   }
-  if (options.mc) {
-    markComplete(options.mc);
+}
+
+
+function stringToNumber(text:string): number{
+  console.log("stringToNumberText: " + text)
+  let num = 0
+  switch(text){
+    case "0": {num = 0}
+    case "1": {num = 1}
+    case "2": {num = 2}
+    case "3": {num = 3}
+    case "4": {num = 4}
+    case "5": {num = 5}
+    case "6": {num = 6}
+    default: console.log("not a number!")
   }
-  if (options.mi) {
-    markIncomplete(options.mi);
-  }
-  if (options.r) {
-    remove(options.r);
-  }
-  if (options.stl) {
-    showList();
-  }
-  if (options.s) {
-    appEnd = true;
-  }
-}*/
+  console.log(num)
+  return num
+}
 
 program.parse(process.argv)

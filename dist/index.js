@@ -13,19 +13,16 @@ class Tasks {
         return this._taskList;
     }
     markAsCompleted(taskId) {
-        const taskIndex = this._taskList.findIndex((task) => task.id === taskId);
-        this._taskList[taskIndex].completed = true;
+        this._taskList[taskId].completed = true;
         return this._taskList;
     }
     markAsIncompleted(taskId) {
-        const taskIndex = this._taskList.findIndex((task) => task.id === taskId);
-        this._taskList[taskIndex].completed = false;
+        this._taskList[taskId].completed = false;
         return this._taskList;
     }
     removeTask(taskId) {
-        const taskIndex = this._taskList.findIndex((task) => task.id === taskId);
-        if (!isNaN(taskIndex)) {
-            this._taskList.splice(taskIndex, 1);
+        if (!isNaN(taskId)) {
+            this._taskList.splice(taskId, 1);
             exports.contadorId--;
         }
         return this._taskList;
@@ -54,6 +51,13 @@ function completedOrNot(task) {
     }
 }
 exports.completedOrNot = completedOrNot;
+const testTasK = {
+    id: exports.contadorId,
+    text: "Ir a comprar manzanas",
+    completed: false
+};
+let taskManager = new Tasks(exports.taskList);
+taskManager.addTask(testTasK);
 /*let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false;
 prueba.addTask(tareaTest);
 

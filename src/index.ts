@@ -20,21 +20,18 @@ export class Tasks{
   }
 
   markAsCompleted(taskId: number): Task[]{
-    const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
-    this._taskList[taskIndex].completed = true;
+    this._taskList[taskId].completed = true;
     return this._taskList
   }
 
   markAsIncompleted(taskId: number): Task[]{
-    const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
-    this._taskList[taskIndex].completed = false;
+    this._taskList[taskId].completed = false;
     return this._taskList
   }
 
   removeTask(taskId: number): Task[]{
-    const taskIndex: number = this._taskList.findIndex((task) => task.id === taskId);
-    if (!isNaN(taskIndex)){
-      this._taskList.splice(taskIndex,1);
+    if (!isNaN(taskId)){
+      this._taskList.splice(taskId,1);
       contadorId --;
     }
     return this._taskList
