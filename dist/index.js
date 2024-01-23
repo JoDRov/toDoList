@@ -51,13 +51,6 @@ function completedOrNot(task) {
     }
 }
 exports.completedOrNot = completedOrNot;
-const testTasK = {
-    id: exports.contadorId,
-    text: "Ir a comprar manzanas",
-    completed: false
-};
-let taskManager = new Tasks(exports.taskList);
-taskManager.addTask(testTasK);
 /*let tareaTest: Task = {id: contadorId, text: "Comprar portatil", completed: false;
 prueba.addTask(tareaTest);
 

@@ -44,23 +44,19 @@ function add(userText) {
     };
     localTaskList = taskManager.addTask(newTask);
     console.log(chalk_1.default.green(`id: ${index_1.contadorId - 1} Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `));
-    console.log(localTaskList);
     return `Tarea añadida: ${userText} - ${(0, index_1.completedOrNot)(newTask)} `;
 }
 function markCompleted(id) {
     localTaskList = taskManager.markAsCompleted(id);
-    console.log(chalk_1.default.blue(`La tarea ${id} ${index_1.taskList[id].text} ha sido modificada`));
-    console.log(localTaskList);
+    console.log(chalk_1.default.blue(`La tarea ${id} ${index_1.taskList[id].text} ha sido marcada como completada`));
 }
 function markIncompleted(id) {
     localTaskList = taskManager.markAsIncompleted(id);
-    console.log(chalk_1.default.yellow(`La tarea ${id} ${localTaskList[id].text} ha sido modificada`));
-    console.log(localTaskList);
+    console.log(chalk_1.default.yellowBright(`La tarea ${id} ${localTaskList[id].text} ha sido marcada como incompleta`));
 }
 function remove(id) {
+    console.log(chalk_1.default.redBright(`La tarea ${id} ${localTaskList[id].text} ha sido eliminada`));
     localTaskList = taskManager.removeTask(id);
-    console.log(chalk_1.default.red(`La tarea ${id} ${localTaskList[id].text} ha sido eliminada`));
-    console.log(localTaskList);
 }
 function showList() {
     const result = (0, index_1.showTaskList)(localTaskList);
@@ -70,7 +66,6 @@ function showList() {
 const options = program.opts();
 while (!appEnd) {
     let question = readlineSync.question('What do you want to do next? (1.add, 2.mark complete, 3.mark incomplete, 4.remove, 5.show task list, 6.exit) (Just type the number): ');
-    console.log(question);
     switch (question) {
         case "1": {
             let taskText = readlineSync.question("Inser your task here: ");
@@ -79,9 +74,7 @@ while (!appEnd) {
         }
         case "2": {
             let taskIdText = readlineSync.question("Insert the id of the task you want completed: ");
-            console.log("TaskIdText: " + taskIdText);
             const taskId = stringToNumber(taskIdText);
-            console.log("taskId: " + taskId);
             markCompleted(taskId);
             break;
         }
@@ -92,7 +85,7 @@ while (!appEnd) {
             break;
         }
         case "4": {
-            let taskIdText = readlineSync.question("Insert the id of the task you want removed: ");
+            let taskIdText = readlineSync.question("Insert the id of the task you want to remove: ");
             const taskId = stringToNumber(taskIdText);
             remove(taskId);
             break;
@@ -103,38 +96,13 @@ while (!appEnd) {
         }
         case "6": {
             appEnd = true;
+            console.log("¡Hasta la vista!");
             break;
         }
     }
 }
 function stringToNumber(text) {
-    console.log("stringToNumberText: " + text);
-    let num = 0;
-    switch (text) {
-        case "0": {
-            num = 0;
-        }
-        case "1": {
-            num = 1;
-        }
-        case "2": {
-            num = 2;
-        }
-        case "3": {
-            num = 3;
-        }
-        case "4": {
-            num = 4;
-        }
-        case "5": {
-            num = 5;
-        }
-        case "6": {
-            num = 6;
-        }
-        default: console.log("not a number!");
-    }
-    console.log(num);
+    let num = Number(text);
     return num;
 }
 program.parse(process.argv);
